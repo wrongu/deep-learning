@@ -13,16 +13,19 @@ Each example is {[1x28x28], [10x1]}, where
 require '../utils'
 
 -- note that 'paths' is module of torch
-if not paths.filep('binaries/mnist-train-images.t7') then
-	error("MNIST binary files are missing; expecting binaries/mnist-train-images.t7, a 60000x28x28 Tensor")
+local root = paths.dirname(paths.thisfile())
+
+local test_file = paths.concat(root, 'binaries', 'mnist-train-images.t7')
+if not paths.filep(test_file) then
+	error("MNIST binary files are missing; expecting " .. test_file .. ", a 60000x28x28 Tensor")
 end
 
 local dataset = {}
 
-dataset.train_images = torch.load('binaries/mnist-train-images.t7'):split(1,1)
-dataset.train_labels = torch.load('binaries/mnist-train-labels.t7'):split(1,1)
-dataset.test_images = torch.load('binaries/mnist-test-images.t7'):split(1,1)
-dataset.test_labels = torch.load('binaries/mnist-test-labels.t7'):split(1,1)
+dataset.train_images = torch.load(paths.concat(root, 'binaries', 'mnist-train-images.t7')):split(1,1)
+dataset.train_labels = torch.load(paths.concat(root, 'binaries', 'mnist-train-labels.t7')):split(1,1)
+dataset.test_images = torch.load(paths.concat(root, 'binaries', 'mnist-test-images.t7')):split(1,1)
+dataset.test_labels = torch.load(paths.concat(root, 'binaries', 'mnist-test-labels.t7')):split(1,1)
 
 -- first 50k examples are training
 dataset['train'] = zip_tables(dataset.train_images, dataset.train_labels, 1, 50000)
