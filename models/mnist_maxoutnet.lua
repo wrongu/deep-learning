@@ -1,5 +1,5 @@
 --[[
-maxoutnet.lua
+mnist_maxoutnet.lua
 
 written by Richard Lange
 
@@ -10,7 +10,7 @@ creates the MNIST maxout network from
 
 require 'torch'
 require 'nn'
-require 'Maxout'
+require 'nnxx' -- to get Maxout module
 
 net = nn.Sequential()
 -- 1x28x28 input image

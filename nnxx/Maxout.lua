@@ -29,7 +29,6 @@ output: nOutputPlane x oWidth x oHeight; where
 ]]--
 
 require 'nn'
-require 'Unfold'
 
 local Maxout, parent = torch.class('nn.Maxout', 'nn.Sequential')
 

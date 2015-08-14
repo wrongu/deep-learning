@@ -1,20 +1,30 @@
---[[ train_mnist.lua
+--[[ train.lua
 
-A straightforward implementation training a model to recognize MNIST digits
+A straightforward implementation training a model that defaults to mnist and Goodfellow et al's Maxout model
 ]]--
 
-local net = require 'mnist_maxoutnet'
+torch.setdefaulttensortype('torch.FloatTensor')
 require 'nn'
-require 'mnist'
 
-minibatch_size = 128
-num_epochs = 1000
-learning_rate = 0.05
+cmd = torch.CmdLine()
+cmd:text()
+cmd:text()
+cmd:text('Simple, straightforward neural network training with SGD')
+cmd:text()
+cmd:text('Options')
+cmd:option('-seed', 404, 'random seed')
+cmd:option('-minibatch', 128, 'minibatch size')
+cmd:option('-epochs', 1000, 'number of training epochs (i.e. number of batches)')
+cmd:option('-lr', 0.05, 'initial learning rate')
+cmd:option('-momentum', 0.5, 'SGD momentum')
+cmd:option('-dataset', 'datasets/mnist', 'name of data-loading module. see the README in the datasets/ directory regarding the expected format')
+cmd:option('-model', 'models/mnist_maxoutnet', 'name of model-creating module')
+cmd:option('-save_dir', 'models/trained/', 'directory to save .t7 models during training')
+cmd:option('-save_every', 10, 'during training, save model every <save_every> epochs (note: final trained model will be saved regardless)')
+cmd:option('-resume', nil, 'path to a .t7 file from which training should start (if nil, starts from scratch)')
+cmd:text()
 
-train_images = load_mnist_images('../datasets/mnist/train-images-idx3-ubyte')
-train_labels = load_mnist_labels('../datasets/mnist/train-labels-idx1-ubyte')
-test_images = load_mnist_images('../datasets/mnist/t10k-images-idx3-ubyte')
-test_labels = load_mnist_labels('../datasets/mnist/t10k-labels-idx1-ubyte')
+opts = cmd:parse(args)
 
 function print_test_error(N)
 	N = N or 10000
