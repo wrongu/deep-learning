@@ -13,6 +13,7 @@ cmd:text('Simple, straightforward neural network training with SGD')
 cmd:text()
 cmd:text('Options')
 cmd:option('-seed', 404, 'random seed')
+cmd:option('-gpu', false, 'whether to use GPU (a boolean - no device management capabilities yet)')
 cmd:option('-minibatch', 128, 'minibatch size')
 cmd:option('-epochs', 1000, 'number of training epochs (i.e. number of batches)')
 cmd:option('-lr', 0.05, 'initial learning rate')
@@ -99,6 +100,12 @@ if opts.resume > 0 then
 	else
 		print("WARNING: could not load from " .. fname .. "! Starting a blank model instead")
 	end
+end
+
+if opts.gpu then
+	model:cuda()
+	criterion:cuda()
+	-- TODO batch-handling of data transfers to the GPU?
 end
 
 -- pre-run evaluation
