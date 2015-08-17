@@ -22,9 +22,13 @@ end
 
 local dataset = {}
 
+-- mnist-train-images.t7 expected to be 60000x1x28x28 FloatTensor
 dataset.train_images = torch.load(paths.concat(root, 'binaries', 'mnist-train-images.t7')):split(1,1)
+-- mnist-train-labels.t7 expected to be size60000 FloatTensor
 dataset.train_labels = torch.load(paths.concat(root, 'binaries', 'mnist-train-labels.t7')):split(1,1)
+-- mnist-test-images.t7 expected to be 10000x1x28x28 FloatTensor
 dataset.test_images = torch.load(paths.concat(root, 'binaries', 'mnist-test-images.t7')):split(1,1)
+-- mnist-test-labels.t7 expected to be size60000 FloatTensor
 dataset.test_labels = torch.load(paths.concat(root, 'binaries', 'mnist-test-labels.t7')):split(1,1)
 
 -- first 50k examples are training
