@@ -26,15 +26,13 @@ net:add(nn.Linear(24,10))
 -- 10x1 output classes (note: class 1 is 0, class 10 is 9.. careful off off by one)
 net:add(nn.LogSoftMax())
 
-function net:reset(bound)
-	-- custom bounds on weight initialization
-	bound = (bound or 0.005) / math.sqrt(3)
-	net:get(1):reset(bound)
-	net:get(2):reset(bound)
-	net:get(3):reset(bound)
-	net:get(5):reset(bound)
+function net:reset(stdv)
+	net:get(1):reset(stdv)
+	net:get(2):reset(stdv)
+	net:get(3):reset(stdv)
+	net:get(5):reset(stdv)
 
 	return self
 end
 
-return net:float():reset()
+return net:float():reset(0.005 / math.sqrt(3))
