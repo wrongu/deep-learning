@@ -121,7 +121,7 @@ for epoch=1,opts.epochs do
 	end
 	-- minibatch update has been accumulated
 	-- (TODO) include momentum
-	model:updateParameters(opts.lr)
+	model:updateParameters(opts.lr / opts.minibatch)
 	model:evaluate()
 	evaluate(model, data['validate'], opts.liveeval)
 	model:training()
