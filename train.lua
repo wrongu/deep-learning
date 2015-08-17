@@ -56,7 +56,9 @@ function evaluate(model, testset, N)
 		-- do classification
 		local correct = testset[idx][2]
 		local clazz = model:forward(testset[idx][1])
-		local confidence, class = clazz:max(1)
+		-- get class (index of max value in last layer).
+		-- Output is flattened with view() so max(1) is agnostic to the model
+		local confidence, class = clazz:view(clazz:numel()):max(1)
 
 		log_avg_confidence = log_avg_confidence + confidence[1]
 
