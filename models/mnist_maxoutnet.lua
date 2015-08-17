@@ -35,4 +35,4 @@ function net:reset(stdv)
 	return self
 end
 
-return net:float():reset(0.005 / math.sqrt(3))
+return net:reset(0.005 / math.sqrt(3))
