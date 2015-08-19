@@ -88,10 +88,14 @@ criterion:float()
 
 -- load model from save file if requested
 if opts.resume > 0 then
+	if opts.resume == opts.epochs then
+		opts.resume = "final"
+	end
 	local fname = get_save_filename(opts.resume)
 	local try_load = torch.load(fname)
 	if try_load then
 		model = try_load
+		print("Loaded from " .. fname)
 	else
 		print("WARNING: could not load from " .. fname .. "! Starting a blank model instead")
 	end
@@ -104,7 +108,7 @@ evaluate(model, data['test'], opts.liveeval)
 local indices = torch.randperm(#data['train'])
 local i = 1 -- loops in order 1..#data across minibatches
 
-for epoch=1,opts.epochs do
+for epoch=opts.resume+1,opts.epochs do
 	model:zeroGradParameters()
 	for example=1,opts.minibatch do
 		-- pick a training image at random
@@ -133,3 +137,6 @@ for epoch=1,opts.epochs do
 		print("Saved " .. fname)
 	end
 end
+
+-- save final result
+torch.save(get_save_filename('final'), model)
