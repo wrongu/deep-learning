@@ -1,0 +1,3 @@
+[submodule "models/nin-imagenet"]
+	path = models/nin-imagenet
+	url = https://gist.github.com/mavenlin/d802a5849de39225bcc6
